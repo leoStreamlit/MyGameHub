@@ -26,15 +26,22 @@
     width: 300px;
     color: white;
 }
-	body {
-background: linear-gradient(
-    90deg,
-    #ff00cc,
-    #b000ff,
-    #0066ff,
-    #001aff
-);
-		}
+	html, body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(
+        90deg,
+        #ff00cc,
+        #b000ff,
+        #0066ff,
+        #001aff
+    );
+    background-attachment: fixed;
+}
 	p { 
 		color: white;
 		}
