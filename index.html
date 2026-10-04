@@ -8,73 +8,222 @@
 
 <style>
 
-#gameliste {
-    list-style: none;
-    padding: 0;
+* {
+    box-sizing: border-box;
 }
 
-.game::before {
-    content: "🎮";
-    margin-right: 10px;
-    font-size: 20px;
-}
-
-    .game {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid white;
-    width: 300px;
-    color: white;
-}
-	html, body {
+html, body {
     margin: 0;
     min-height: 100%;
 }
 
 body {
     min-height: 100vh;
+    padding: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+
     background: linear-gradient(
-        90deg,
+        135deg,
         #ff00cc,
         #b000ff,
         #0066ff,
         #001aff
     );
+
     background-attachment: fixed;
 }
-	p { 
-		color: white;
-		}
-	
-	h1 {
-		color: white;
-		}
-		
-	h2 {
-		color: white;
-		}
-		
-	div {
-		color: white;
-		}
 
-	h4 {
-		color: white;
-		}
+/* Überschriften */
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 5px;
+}
+
+h2 {
+    margin-top: 35px;
+}
+
+h4 {
+    font-size: 18px;
+    margin-top: 0;
+}
+
+/* Eingabefelder */
+
+input {
+    width: 300px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+
+    outline: none;
+    font-size: 15px;
+
+    backdrop-filter: blur(10px);
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+input:focus {
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.6);
+}
+
+/* Hinzufügen Button */
+
+.hinzufuegen {
+    padding: 12px 20px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: white;
+    color: #6c00ff;
+
+    font-weight: bold;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.hinzufuegen:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Game Liste */
+
+#gameliste {
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Game Card */
+
+.game {
+    position: relative;
+
+    width: 300px;
+    min-height: 150px;
+
+    padding: 20px;
+
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.12);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+    transition: 0.25s;
+}
+
+.game:hover {
+    transform: translateY(-7px) scale(1.02);
+
+    background: rgba(255,255,255,0.18);
+
+    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+}
+
+/* Game Icon */
+
+.game::before {
+    content: "🎮";
+
+    display: block;
+
+    font-size: 42px;
+
+    margin-bottom: 10px;
+}
+
+/* Game Name */
+
+.game strong {
+    display: block;
+
+    font-size: 22px;
+
+    margin-bottom: 15px;
+}
+
+/* Spiel öffnen */
+
+.spielen {
+    display: inline-block;
+
+    padding: 9px 15px;
+
+    border-radius: 9px;
+
+    background: white;
+    color: #6500ff;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+.spielen:hover {
+    transform: scale(1.05);
+}
+
+/* Löschen Button */
+
+.loeschen {
+    margin-left: 8px;
+
+    padding: 9px 12px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: rgba(255, 60, 60, 0.2);
+    color: #ff7777;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.loeschen:hover {
+    background: #ff4444;
+    color: white;
+}
 
 </style>
 
-<link rel="icon" type="image/png" href="https://th.bing.com/th/id/OIP.TsS4e-71cU6mdWxddQIokAHaHa?w=206&h=206&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3">
+<link rel="icon" type="image/png"
+href="https://th.bing.com/th/id/OIP.TsS4e-71cU6mdWxddQIokAHaHa?w=206&h=206&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3">
 
 </head>
 
 <body>
 
-<h1>Willkommen bei MyGameHub!</h1>
+<h1>Willkommen bei MyGameHub! 🎮</h1>
 
-<h4>Für alle online Gamer. der Browser für DEINE Games!</h4>
+<h4>Für alle Online-Gamer – der Browser für DEINE Games!</h4>
 
-<p>All deine Games gemanaged.</p>
+<p>All deine Games gemanagt.</p>
 
 <h2>Game hinzufügen</h2>
 
@@ -86,7 +235,9 @@ body {
 
 <br><br>
 
-<button onclick="gameHinzufuegen()">Game hinzufügen</button>
+<button class="hinzufuegen" onclick="gameHinzufuegen()">
+    + Game hinzufügen
+</button>
 
 <h2>Meine Games</h2>
 
@@ -95,85 +246,98 @@ body {
 
 <script>
 
-    // Gespeicherte Games laden
-    let games = JSON.parse(localStorage.getItem("meineGames")) || [];
+let games = JSON.parse(localStorage.getItem("meineGames")) || [];
 
-    // Games anzeigen
-    function zeigeGames() {
 
-        const liste = document.getElementById("gameliste");
+/* Games anzeigen */
 
-        // Liste leeren
-        liste.innerHTML = "";
+function zeigeGames() {
 
-        // Alle Games durchgehen
-        games.forEach(function(game, index) {
+    const liste = document.getElementById("gameliste");
 
-            const li = document.createElement("li");
+    liste.innerHTML = "";
 
-            li.className = "game";
+    games.forEach(function(game, index) {
 
-            li.innerHTML = `
-                <strong>${game.name}</strong>
-                <br>
-                <a href="${game.link}" target="_blank">
-                    Spiel öffnen
-                </a>
-                <button class="loeschen" style="color: red;" onclick="gameLoeschen(${index})">
-                    Löschen
-                </button>
-            `;
+        const li = document.createElement("li");
 
-            liste.appendChild(li);
-        });
+        li.className = "game";
+
+        li.innerHTML = `
+            <strong>${game.name}</strong>
+
+            <a
+                class="spielen"
+                href="${game.link}"
+                target="_blank"
+            >
+                ▶ Spielen
+            </a>
+
+            <button
+                class="loeschen"
+                onclick="gameLoeschen(${index})"
+            >
+                🗑 Löschen
+            </button>
+        `;
+
+        liste.appendChild(li);
+    });
+}
+
+
+/* Neues Game hinzufügen */
+
+function gameHinzufuegen() {
+
+    const name = document.getElementById("eingabe").value.trim();
+    const link = document.getElementById("eingabeLink").value.trim();
+
+    if (name === "" || link === "") {
+
+        alert("Bitte Game Name und Game Link eingeben!");
+
+        return;
     }
 
+    const neuesGame = {
+        name: name,
+        link: link
+    };
 
-    // Neues Game hinzufügen
-    function gameHinzufuegen() {
+    games.push(neuesGame);
 
-        const name = document.getElementById("eingabe").value.trim();
-        const link = document.getElementById("eingabeLink").value.trim();
+    localStorage.setItem(
+        "meineGames",
+        JSON.stringify(games)
+    );
 
-        if (name === "" || link === "") {
-            alert("Bitte Game Name und Game Link eingeben!");
-            return;
-        }
+    document.getElementById("eingabe").value = "";
+    document.getElementById("eingabeLink").value = "";
 
-        // Neues Game erstellen
-        const neuesGame = {
-            name: name,
-            link: link
-        };
-
-        // Game zur Liste hinzufügen
-        games.push(neuesGame);
-
-        // Games speichern
-        localStorage.setItem("meineGames", JSON.stringify(games));
-
-        // Eingabefelder leeren
-        document.getElementById("eingabe").value = "";
-        document.getElementById("eingabeLink").value = "";
-
-        // Liste aktualisieren
-        zeigeGames();
-    }
-
-
-    // Game löschen
-    function gameLoeschen(index) {
-
-        games.splice(index, 1);
-
-        localStorage.setItem("meineGames", JSON.stringify(games));
-
-        zeigeGames();
-    }
-
-
-    // Beim Start der Website gespeicherte Games anzeigen
     zeigeGames();
+}
+
+
+/* Game löschen */
+
+function gameLoeschen(index) {
+
+    games.splice(index, 1);
+
+    localStorage.setItem(
+        "meineGames",
+        JSON.stringify(games)
+    );
+
+    zeigeGames();
+}
+
+
+/* Beim Start laden */
+
+zeigeGames();
 
 </script>
 
