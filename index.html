@@ -8,8 +8,6 @@
 
 <style>
 
-/* Grundlegendes */
-
 * {
     box-sizing: border-box;
 }
@@ -59,10 +57,57 @@ p {
 }
 
 
+/* Meine Games Überschrift */
+
+.meine-games-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 35px;
+    margin-bottom: 20px;
+}
+
+.meine-games-header h2 {
+    margin: 0;
+}
+
+
+/* Game hinzufügen Bereich */
+
+.hinzufuegen-bereich {
+    display: none;
+
+    margin-top: 20px;
+    margin-bottom: 25px;
+
+    padding: 25px;
+
+    width: 100%;
+    max-width: 500px;
+
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    backdrop-filter: blur(15px);
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.hinzufuegen-bereich.aktiv {
+    display: block;
+}
+
+
 /* Eingabefelder */
 
 input {
-    width: 300px;
+    width: 100%;
+    max-width: 400px;
 
     padding: 12px 15px;
     margin-bottom: 10px;
@@ -90,9 +135,10 @@ input:focus {
 }
 
 
-/* Game hinzufügen Button */
+/* Buttons */
 
-.hinzufuegen {
+.hinzufuegen,
+.schliessen {
     padding: 12px 20px;
 
     border: none;
@@ -109,11 +155,19 @@ input:focus {
     transition: 0.2s;
 }
 
-.hinzufuegen:hover {
+.hinzufuegen:hover,
+.schliessen:hover {
     transform: translateY(-2px);
 
     box-shadow:
         0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.schliessen {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+
+    margin-left: 8px;
 }
 
 
@@ -123,9 +177,13 @@ input:focus {
     list-style: none;
 
     padding: 0;
+    margin: 0;
 
     display: flex;
     flex-wrap: wrap;
+
+    justify-content: flex-start;
+    align-items: flex-start;
 
     gap: 20px;
 }
@@ -256,11 +314,6 @@ input:focus {
         padding: 20px;
     }
 
-    input {
-        width: 100%;
-        max-width: 300px;
-    }
-
     .game {
         width: 100%;
         max-width: 350px;
@@ -268,6 +321,17 @@ input:focus {
 
     h1 {
         font-size: 32px;
+    }
+
+    .meine-games-header {
+        align-items: flex-start;
+        gap: 15px;
+        flex-direction: column;
+    }
+
+    .schliessen {
+        margin-left: 0;
+        margin-top: 8px;
     }
 }
 
@@ -297,39 +361,65 @@ input:focus {
 </p>
 
 
-<h2>Game hinzufügen</h2>
+<!-- Meine Games steht jetzt im Vordergrund -->
+
+<div class="meine-games-header">
+
+    <h2>Meine Games</h2>
+
+    <button
+        class="hinzufuegen"
+        onclick="formularAnzeigen()"
+    >
+        + Game hinzufügen
+    </button>
+
+</div>
 
 
-<input
-    type="text"
-    id="eingabe"
-    placeholder="Game Name"
+<!-- Game hinzufügen Formular -->
+
+<div
+    id="hinzufuegenBereich"
+    class="hinzufuegen-bereich"
 >
 
+    <h3>Neues Game hinzufügen</h3>
 
-<br>
+    <input
+        type="text"
+        id="eingabe"
+        placeholder="Game Name"
+    >
+
+    <br>
+
+    <input
+        type="text"
+        id="eingabeLink"
+        placeholder="Game Link"
+    >
+
+    <br><br>
+
+    <button
+        class="hinzufuegen"
+        onclick="gameHinzufuegen()"
+    >
+        Game speichern
+    </button>
+
+    <button
+        class="schliessen"
+        onclick="formularSchliessen()"
+    >
+        Abbrechen
+    </button>
+
+</div>
 
 
-<input
-    type="text"
-    id="eingabeLink"
-    placeholder="Game Link"
->
-
-
-<br><br>
-
-
-<button
-    class="hinzufuegen"
-    onclick="gameHinzufuegen()"
->
-    + Game hinzufügen
-</button>
-
-
-<h2>Meine Games</h2>
-
+<!-- Games -->
 
 <ul id="gameliste"></ul>
 
@@ -350,6 +440,34 @@ let games =
 
 
 /*
+    Formular anzeigen
+*/
+
+function formularAnzeigen() {
+
+    document
+        .getElementById("hinzufuegenBereich")
+        .classList.add("aktiv");
+
+}
+
+
+
+/*
+    Formular schließen
+*/
+
+function formularSchliessen() {
+
+    document
+        .getElementById("hinzufuegenBereich")
+        .classList.remove("aktiv");
+
+}
+
+
+
+/*
     Games anzeigen
 */
 
@@ -358,11 +476,9 @@ function zeigeGames() {
     const liste =
         document.getElementById("gameliste");
 
-    // Liste leeren
     liste.innerHTML = "";
 
 
-    // Alle Games durchgehen
     games.forEach(function(game, index) {
 
         const li =
@@ -370,13 +486,6 @@ function zeigeGames() {
 
         li.className = "game";
 
-
-        /*
-            Logo der Website laden.
-
-            Der Link des Games wird an
-            Google Favicon weitergegeben.
-        */
 
         li.innerHTML = `
 
@@ -438,11 +547,6 @@ function gameHinzufuegen() {
             .trim();
 
 
-    /*
-        Überprüfen, ob beide Felder
-        ausgefüllt wurden
-    */
-
     if (name === "" || link === "") {
 
         alert(
@@ -453,13 +557,8 @@ function gameHinzufuegen() {
     }
 
 
-    /*
-        Falls der Benutzer z.B.
-        "minecraft.net" eingibt,
-        wird automatisch https:// davor gesetzt.
-    */
-
     let gameLink = link;
+
 
     if (
         !gameLink.startsWith("http://") &&
@@ -472,10 +571,6 @@ function gameHinzufuegen() {
     }
 
 
-    /*
-        Neues Game erstellen
-    */
-
     const neuesGame = {
 
         name: name,
@@ -485,26 +580,14 @@ function gameHinzufuegen() {
     };
 
 
-    /*
-        Game zur Liste hinzufügen
-    */
-
     games.push(neuesGame);
 
-
-    /*
-        Games speichern
-    */
 
     localStorage.setItem(
         "meineGames",
         JSON.stringify(games)
     );
 
-
-    /*
-        Eingabefelder leeren
-    */
 
     document
         .getElementById("eingabe")
@@ -516,11 +599,15 @@ function gameHinzufuegen() {
         .value = "";
 
 
+    zeigeGames();
+
+
     /*
-        Liste aktualisieren
+        Nach dem Speichern
+        Formular wieder schließen
     */
 
-    zeigeGames();
+    formularSchliessen();
 
 }
 
@@ -548,8 +635,7 @@ function gameLoeschen(index) {
 
 
 /*
-    Beim Start der Website
-    gespeicherte Games anzeigen
+    Beim Start Games anzeigen
 */
 
 zeigeGames();
